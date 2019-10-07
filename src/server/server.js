@@ -16,11 +16,12 @@ function listening() {
 }
 
 const fetch = require('node-fetch');
-app.get('/weather/:latlon', async (request, response) => {
-    const latlon = request.params.latlon .split(',');
-    const lat = latlon[0];
-    const lng = latlon[1];
-    const api_url = `https://api.darksky.net/forecast/f05e05b1d9a548df9103df991d47790c/${lat},${lng},1584975600?exclude=currently,minutely,hourly,flags`;
+app.get('/weather/:latlngdate', async (request, response) => {
+    const latlngdate = request.params.latlngdate.split(',');
+    const lat = latlngdate[0];
+    const lng = latlngdate[1];
+    const date = latlngdate[2]
+    const api_url = `https://api.darksky.net/forecast/f05e05b1d9a548df9103df991d47790c/${lat},${lng},${date}?exclude=currently,minutely,hourly,flags`;
     const data = await fetch(api_url);
     const weatherData = await data.json();
     console.log(weatherData);
