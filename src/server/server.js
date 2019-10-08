@@ -1,9 +1,6 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 const express = require('express');
-var cors = require('cors');
-
+const cors = require('cors');
+const darkSkyUrl = require('../client/js/url/DarkSkyAPI');
 const app = express();
 
 app.use(cors());
@@ -21,9 +18,9 @@ app.get('/weather/:latlngdate', async (request, response) => {
     const lat = latlngdate[0];
     const lng = latlngdate[1];
     const date = latlngdate[2]
-    const api_url = `https://api.darksky.net/forecast/f05e05b1d9a548df9103df991d47790c/${lat},${lng},${date}?exclude=currently,minutely,hourly,flags`;
+    const api_url = `${darkSkyUrl['base']}${darkSkyUrl['key']}/${lat},${lng},${date}?${darkSkyUrl['options']}`;
     const data = await fetch(api_url);
     const weatherData = await data.json();
-    console.log(weatherData);
+    console.log(api_url);
     response.json(weatherData);
 })

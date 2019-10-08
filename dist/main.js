@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \".card {\\n  margin-left: auto;\\n  margin-right: auto;\\n  width: 250px; }\\n  .card img {\\n    width: 250px; }\\n\", \"\"]);\n\n\n//# sourceURL=webpack:///./src/client/scss/card.scss?./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
+eval("exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \"main .travel_list {\\n  list-style: none;\\n  width: 220px;\\n  margin-left: auto;\\n  margin-right: auto;\\n  font-size: 12px;\\n  color: #333333; }\\n  main .travel_list li img {\\n    width: 220px;\\n    height: 150px; }\\n\", \"\"]);\n\n\n//# sourceURL=webpack:///./src/client/scss/card.scss?./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
 
 /***/ }),
 
@@ -129,7 +129,103 @@ eval("\n\nvar stylesInDom = {};\n\nvar isOldIE = function isOldIE() {\n  var mem
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_card_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scss/card.scss */ \"./src/client/scss/card.scss\");\n/* harmony import */ var _scss_card_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_card_scss__WEBPACK_IMPORTED_MODULE_0__);\n\nconst addButton = document.querySelector('.add_button');\nlet travel_list = document.querySelector('.travel_list');\nlet countryName;\nlet number = 0;\nlet isProcessing = false;\ndocument.addEventListener('submit', function (e) {\n  e.preventDefault();\n\n  if (!isProcessing) {\n    isProcessing = true;\n    handleSubmit();\n  } else {\n    return false;\n  }\n});\n\nfunction handleSubmit() {\n  const userInputCity = document.querySelector('.user_input_city').value;\n  const userInputDate = document.querySelector('.user_input_date').value;\n\n  if (!userInputDate.match(/^\\d{2}\\/\\d{2}\\/\\d{4}$/)) {\n    alert('Confirm your format');\n  } else {\n    getGeoData(`http://api.geonames.org/search?q=${userInputCity}&type=json&maxRows=1&username=komei`).then(function (data) {\n      countryName = data['geonames'][0]['countryName'];\n      const latitude = data['geonames'][0]['lat'];\n      const longitude = data['geonames'][0]['lng'];\n      const date = new Date(userInputDate);\n      const dateTime = date.getTime();\n      console.log(countryName);\n      return getTempData('https://api.darksky.net/forecast/f05e05b1d9a548df9103df991d47790c/', latitude, longitude, Math.floor(dateTime / 1000));\n    }).catch(function (e) {\n      isProcessing = false;\n      console.log('error', e);\n    }).then(function (data) {\n      const tempHighFromApi = data.daily.data[0]['temperatureHigh'];\n      const tempLowFromApi = data.daily.data[0]['temperatureLow'];\n      const summaryFromApi = data.daily.data[0]['summary'];\n      const card = document.createElement('div');\n      number++;\n      card.className = `card_${number}`;\n      const li = document.createElement('li');\n      const tempHighDiv = document.createElement('div');\n      tempHighDiv.className = 'high_temp';\n      const tempLowDiv = document.createElement('div');\n      tempLowDiv.className = 'low_temp';\n      tempHighDiv.textContent = `High : ${Math.floor(tempHighFromApi)}`;\n      tempLowDiv.textContent = `Low : ${Math.floor(tempLowFromApi)}`;\n      card.appendChild(tempHighDiv);\n      card.appendChild(tempLowDiv);\n      li.appendChild(card);\n      travel_list.appendChild(li);\n      return getImageData(`https://pixabay.com/api/?key=13842976-347039722592ee3f994bb963f&q=${countryName.toLowerCase().replace(' ', '%20')}`);\n    }).catch(function () {\n      isProcessing = false;\n    }).then(data => {\n      console.log(data);\n      const card = document.querySelector(`.card_${number}`);\n      const imgTag = document.createElement('img');\n      const cityImageSrc = data.hits[0]['webformatURL'];\n      imgTag.src = cityImageSrc;\n      imgTag.alt = 'city';\n      imgTag.style.cssText = 'width: 220px;';\n      card.insertAdjacentElement('afterbegin', imgTag);\n      isProcessing = false;\n    }).catch(function () {\n      isProcessing = false;\n    });\n  }\n}\n\nconst getGeoData = async (url = '') => {\n  const data = await fetch(url);\n\n  try {\n    const geoData = await data.json();\n    return geoData;\n  } catch (error) {}\n};\n\nconst getTempData = async (url = '', lat, lng, date) => {\n  const data = await fetch(`weather/${lat},${lng},${date}`);\n\n  try {\n    const tempData = await data.json();\n    return tempData;\n  } catch (error) {}\n};\n\nconst getImageData = async (url = '') => {\n  const data = await fetch(url);\n\n  try {\n    const imageData = await data.json();\n    return imageData;\n  } catch (error) {}\n};\n\n//# sourceURL=webpack:///./src/client/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_card_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scss/card.scss */ \"./src/client/scss/card.scss\");\n/* harmony import */ var _scss_card_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_card_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _js_get_data_geoData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/get_data/geoData */ \"./src/client/js/get_data/geoData.js\");\n/* harmony import */ var _js_get_data_tempData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/get_data/tempData */ \"./src/client/js/get_data/tempData.js\");\n/* harmony import */ var _js_get_data_imageData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/get_data/imageData */ \"./src/client/js/get_data/imageData.js\");\n/* harmony import */ var _js_elementFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/elementFactory */ \"./src/client/js/elementFactory.js\");\n/* harmony import */ var _js_renderImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/renderImage */ \"./src/client/js/renderImage.js\");\n/* harmony import */ var _js_dateValidator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/dateValidator */ \"./src/client/js/dateValidator.js\");\n/* harmony import */ var _js_url_GeoAPI__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/url/GeoAPI */ \"./src/client/js/url/GeoAPI.js\");\n/* harmony import */ var _js_url_PixabayAPI__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/url/PixabayAPI */ \"./src/client/js/url/PixabayAPI.js\");\n\n\n\n\n\n\n\n\n // Global variables\n\nconst addButton = document.querySelector('.add_button');\nlet countryName = '';\nlet isProcessing = false; // Button Event\n\naddButton.addEventListener('click', function (e) {\n  e.preventDefault();\n  const userInputCity = document.querySelector('.user_input_city').value;\n  const userInputDate = document.querySelector('.user_input_date').value;\n\n  if (!Object(_js_dateValidator__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(userInputDate)) {\n    return false;\n  } // Don't permit any tasks during process\n\n\n  if (!isProcessing) {\n    handleSubmit(userInputCity, userInputDate);\n  } else {\n    return false;\n  }\n});\n\nfunction handleSubmit(userInputCity, userInputDate) {\n  // Start\n  isProcessing = true;\n  Object(_js_get_data_geoData__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(`${_js_url_GeoAPI__WEBPACK_IMPORTED_MODULE_7__[\"default\"]['base']}?q=${userInputCity}&${_js_url_GeoAPI__WEBPACK_IMPORTED_MODULE_7__[\"default\"]['options']}&username=${_js_url_GeoAPI__WEBPACK_IMPORTED_MODULE_7__[\"default\"]['userName']}`).then(function (data) {\n    // Get geo data from the result of geo api\n    countryName = data['geonames'][0]['countryName'];\n    const latitude = data['geonames'][0]['lat'];\n    const longitude = data['geonames'][0]['lng']; // It's necessary to request to dark sky api\n\n    const date = new Date(userInputDate);\n    const dateTime = date.getTime();\n    const geoData = {\n      lat: latitude,\n      lng: longitude,\n      schedule: Math.floor(dateTime / 1000)\n    };\n    return Object(_js_get_data_tempData__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(geoData);\n  }).then(data => {\n    Object(_js_elementFactory__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(data);\n    return Object(_js_get_data_imageData__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(`${_js_url_PixabayAPI__WEBPACK_IMPORTED_MODULE_8__[\"default\"]['base']}?key=${_js_url_PixabayAPI__WEBPACK_IMPORTED_MODULE_8__[\"default\"]['key']}&q=${countryName.toLowerCase().replace(' ', '%20')}`);\n  }).then(data => {\n    // Add an image of the country from pixabay api\n    Object(_js_renderImage__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(data); // End\n\n    isProcessing = false;\n  }).catch(function () {\n    isProcessing = false;\n    alert('Enter a city with correct format');\n  });\n}\n\n//# sourceURL=webpack:///./src/client/index.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/dateValidator.js":
+/*!****************************************!*\
+  !*** ./src/client/js/dateValidator.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction validDate(userInputDate) {\n  // Only MM/DD/YYYY format\n  if (!userInputDate.match(/^\\d{2}\\/\\d{2}\\/\\d{4}$/)) {\n    alert('Confirm your format!');\n    return false;\n  } // Don't permit the date, which doesn't exist\n\n\n  var date = new Date(userInputDate);\n\n  if (date.getMonth() != userInputDate.split(\"/\")[0] - 1 || date.getDate() != userInputDate.split(\"/\")[1] || date.getFullYear() != userInputDate.split(\"/\")[2]) {\n    alert('Enter valid date');\n    return false;\n  } else {\n    return true;\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (validDate);\n\n//# sourceURL=webpack:///./src/client/js/dateValidator.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/elementFactory.js":
+/*!*****************************************!*\
+  !*** ./src/client/js/elementFactory.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction createElements(data) {\n  let travel_list = document.querySelector('.travel_list'); // Get the data from dark sky api\n\n  const tempHighFromApi = data.daily.data[0]['temperatureHigh'];\n  const tempLowFromApi = data.daily.data[0]['temperatureLow'];\n  const summaryFromApi = data.daily.data[0]['summary']; // Create a travel plan card\n\n  const card = document.createElement('div');\n  card.className = 'card';\n  const li = document.createElement('li');\n  const tempHighDiv = document.createElement('div');\n  const tempLowDiv = document.createElement('div');\n  const summaryDiv = document.createElement('div');\n  tempHighDiv.textContent = `High : ${Math.floor(tempHighFromApi)}`;\n  tempLowDiv.textContent = `Low : ${Math.floor(tempLowFromApi)}`;\n  summaryDiv.textContent = summaryFromApi;\n  card.appendChild(tempHighDiv);\n  card.appendChild(tempLowDiv);\n  card.appendChild(summaryDiv);\n  li.appendChild(card);\n  travel_list.appendChild(li);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (createElements);\n\n//# sourceURL=webpack:///./src/client/js/elementFactory.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/get_data/geoData.js":
+/*!*******************************************!*\
+  !*** ./src/client/js/get_data/geoData.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst getGeoData = async (url = '') => {\n  const data = await fetch(url);\n\n  try {\n    const geoData = await data.json();\n    return geoData;\n  } catch (error) {}\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (getGeoData);\n\n//# sourceURL=webpack:///./src/client/js/get_data/geoData.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/get_data/imageData.js":
+/*!*********************************************!*\
+  !*** ./src/client/js/get_data/imageData.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst getImageData = async (url = '') => {\n  const data = await fetch(url);\n\n  try {\n    const imageData = await data.json();\n    return imageData;\n  } catch (error) {}\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (getImageData);\n\n//# sourceURL=webpack:///./src/client/js/get_data/imageData.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/get_data/tempData.js":
+/*!********************************************!*\
+  !*** ./src/client/js/get_data/tempData.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst getTempData = async (geoData = {}) => {\n  const data = await fetch(`weather/${geoData['lat']},${geoData['lng']},${geoData['schedule']}`);\n\n  try {\n    const tempData = await data.json();\n    return tempData;\n  } catch (error) {}\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (getTempData);\n\n//# sourceURL=webpack:///./src/client/js/get_data/tempData.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/renderImage.js":
+/*!**************************************!*\
+  !*** ./src/client/js/renderImage.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction addImage(data) {\n  const card = document.querySelector('.travel_list').lastChild;\n  const imgTag = document.createElement('img');\n  const cityImageSrc = data.hits[0]['webformatURL'];\n  imgTag.src = cityImageSrc;\n  imgTag.alt = 'city';\n  card.insertAdjacentElement('afterbegin', imgTag);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (addImage);\n\n//# sourceURL=webpack:///./src/client/js/renderImage.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/url/GeoAPI.js":
+/*!*************************************!*\
+  !*** ./src/client/js/url/GeoAPI.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst geoUrl = {\n  base: 'http://api.geonames.org/search',\n  options: 'type=json&maxRows=1',\n  userName: \"komei\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (geoUrl);\n\n//# sourceURL=webpack:///./src/client/js/url/GeoAPI.js?");
+
+/***/ }),
+
+/***/ "./src/client/js/url/PixabayAPI.js":
+/*!*****************************************!*\
+  !*** ./src/client/js/url/PixabayAPI.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst pixabayUrl = {\n  base: 'https://pixabay.com/api/',\n  key: \"13842976-347039722592ee3f994bb963f\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (pixabayUrl);\n\n//# sourceURL=webpack:///./src/client/js/url/PixabayAPI.js?");
 
 /***/ }),
 
