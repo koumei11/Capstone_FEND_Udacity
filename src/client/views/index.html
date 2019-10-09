@@ -6,21 +6,35 @@
         <title>Travel Planner</title>
     </head>
     <body>
-        <header>
-
-        </header>
-        <main>
-            <h1>Travel Planner</h1>
-            <form>
-                <input type="text" class="user_input_city" placeholder="city,country">
-                <input type="text" class="user_input_date" placeholder="MM/DD/YYYY">
-                <button class="add_button">add</button>
-            </form>
-            <ul class="travel_list">
-            </ul>
-        </main>
-        <footer>
-            
-        </footer>
+        <div id="container">
+            <header>
+                <h1>Travel Planner</h1>
+            </header>
+            <main>
+                <form>
+                    <input type="text" class="user_input_city" placeholder="city,country">
+                    <input type="text" class="user_input_date" placeholder="MM/DD/YYYY">
+                    <div class="button_class">
+                        <button class="add_button">add</button>
+                        <button class="remove_all">remove all</button>
+                    </div>
+                </form>
+                <ul class="travel_list">
+                </ul>
+                </ul>
+            </main>
+            <footer>
+                
+            </footer>
+        </div>
+        <script>
+            // Check that service workers are supported
+            if ('serviceWorker' in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
+            }
+        </script>
     </body>
 </html>

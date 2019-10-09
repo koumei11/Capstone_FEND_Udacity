@@ -1,0 +1,19 @@
+#container {
+    display: grid;
+    width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: 300px;
+    grid-template-rows: 100px auto 100px;
+    grid-template-areas:
+    "hd"
+    "main"
+    "ft";
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        /*　for iPad 　*/
+        width: 700px;
+        grid-template-columns: 650px;
+        grid-template-rows: 100px auto 100px;
+    }
+}

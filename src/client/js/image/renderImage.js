@@ -1,10 +1,10 @@
-function addImage(data) {
-    const card = document.querySelector('.travel_list').lastChild;
+async function addImage(data) {
+    const title = document.querySelector('.departure_date');
     const imgTag = document.createElement('img');
     const cityImageSrc = data.hits[0]['webformatURL'];
     imgTag.src = cityImageSrc;
     imgTag.alt = 'city';
-    card.insertAdjacentElement('afterbegin', imgTag);
+    title.insertAdjacentElement('afterend', imgTag);
 }
 
 export default addImage;

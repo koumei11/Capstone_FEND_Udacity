@@ -1,0 +1,9 @@
+$base_color: #22b2da;
+
+header{
+    grid-area: hd;
+    h1 {
+        text-align: center;
+        color: $base_color;
+    }
+}

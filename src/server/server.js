@@ -21,6 +21,7 @@ app.get('/weather/:latlngdate', async (request, response) => {
     const api_url = `${darkSkyUrl['base']}${darkSkyUrl['key']}/${lat},${lng},${date}?${darkSkyUrl['options']}`;
     const data = await fetch(api_url);
     const weatherData = await data.json();
-    console.log(api_url);
+    weatherData['scheduled-date'] = date;
+    console.log(weatherData);
     response.json(weatherData);
 })

@@ -1,0 +1,23 @@
+main {
+    @media screen and (min-width:1024px) {
+        /*　for PC 　*/
+        form {
+            .button_class {
+                display: flex;
+                justify-content: space-around;
+                button {
+                    display: inline-block;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .travel_list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows:minmax(100, auto);
+            gap: 15px;
+            justify-content: space-around;
+        }
+    }
+}

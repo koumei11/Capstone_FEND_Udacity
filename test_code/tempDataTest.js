@@ -8,4 +8,4 @@ const getTempData = async (geoData = {}, date = '') => {
     }
 }
 
-export default getTempData;
+module.exports = getTempData;

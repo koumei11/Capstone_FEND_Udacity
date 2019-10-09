@@ -1,6 +1,6 @@
 function validDate(userInputDate) {
         // Only MM/DD/YYYY format
-        if(!userInputDate.match(/^\d{2}\/\d{2}\/\d{4}$/)){
+        if(!userInputDate.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)){
             alert('Confirm your format!');
             return false;
         }
