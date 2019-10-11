@@ -1,4 +1,4 @@
-const getGeoData = require('../test_code/geoDataTest');
+import getGeoData from '../src/client/js/get_data/geoData';
 
 test('Getting geo data', () => {
     getGeoData(`http://api.geonames.org/search?q=new%20york,us&maxRows=1&type=json&username=${process.env.USER_NAME}`).then(data => {

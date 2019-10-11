@@ -25,3 +25,5 @@ app.get('/weather/:latlngdate', async (request, response) => {
     console.log(weatherData);
     response.json(weatherData);
 })
+
+module.exports = app;

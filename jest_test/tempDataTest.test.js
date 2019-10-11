@@ -1,4 +1,4 @@
-const getTempData = require('../test_code/tempDataTest');
+import getTempData from '../src/client/js/get_data/tempData';
 
 const geoData = {
     lat: 40.71427,
