@@ -19,7 +19,7 @@ This is the final project of Udacity Front End Developer Nanodegree program.
 * Allow the user to remove the trip
 * Use Local Storage to save the data so that when they close, then revisit the page, their information is still there.
 
-# In Japanese
+# 日本語(In Japanese)
 # Capstone Project - Travel Planner
 
 ## 内容
